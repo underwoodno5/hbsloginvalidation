@@ -8,6 +8,15 @@ const app = express();
 const path = require('path');
 const hbs = require('express-handlebars');
 
+//-----------------
+//----- VIEW ENGINE
+//-----------------
+app.engine('hbs', hbs({extname:'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts'}));
+app.set('views',path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
+
+
 //---------------
 //----- CONFIGS
 //---------------
@@ -15,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(expressSession({secret: 'max', saveUninitialized: false, resave: false}));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //----DB connection
 const dbConfig = require('./config/databse');
